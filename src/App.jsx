@@ -8,9 +8,9 @@ const CELL_SIZE = 50; // 50px per cell
 const DraggableGrid = () => {
   const [draggedItem, setDraggedItem] = useState(null);
   const [items, setItems] = useState([
-    { id: 1, x: 2, y: 3, color: '#ff6b6b' },
-    { id: 2, x: 5, y: 5, color: '#4ecdc4' },
-    { id: 3, x: 7, y: 1, color: '#45b7d1' }
+    { id: 1, x: 2, y: 3, width: 1, height: 1, name: "farm", color: '#ff6b6b' },
+    { id: 2, x: 5, y: 5, width: 2, height: 1, name: "death", color: '#4ecdc4' },
+    { id: 3, x: 7, y: 1, width: 2, height: 2, name: "minecraft", color: '#45b7d1' }
   ]);
 
   const gridRef = useRef(null);
@@ -70,6 +70,9 @@ const DraggableGrid = () => {
       id: Date.now(),
       x: 0,
       y: 0,
+      width: 1,
+      height: 1,
+      name: "new",
       color: `hsl(${Math.random() * 360}, 70%, 60%)`
     };
     setItems(prev => [...prev, newItem]);
@@ -122,8 +125,8 @@ const DraggableGrid = () => {
             onDragStart={(e) => handleDragStart(e, item)}
             onDragEnd={handleDragEnd}
             style={{
-              gridColumn: `${item.x + 1} / span 1`,
-              gridRow: `${item.y + 1} / span 1`,
+              gridColumn: `${item.x + 1} / span ${item.width}`,
+              gridRow: `${item.y + 1} / span ${item.height}`,
               backgroundColor: item.color
             }}
           >
