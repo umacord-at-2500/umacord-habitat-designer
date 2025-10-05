@@ -258,7 +258,7 @@ const DraggableGrid = () => {
           <ul>
             {items.map((item) => (
               <li key={item.id} style={{ color: item.color }}>
-                {item.name} area of {item.width} x {item.height} at position ({item.x}, {item.y})
+                Layer {item.layer}: {item.name} area of {item.width} x {item.height} at position ({item.x}, {item.y})
               </li>
             ))}
           </ul>
