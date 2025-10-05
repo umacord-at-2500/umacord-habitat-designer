@@ -7,6 +7,7 @@ const CELL_SIZE = 50; // 50px per cell
 
 const DraggableGrid = () => {
   const [draggedItem, setDraggedItem] = useState(null);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [items, setItems] = useState([
     { id: 1, x: 2, y: 3, width: 1, height: 1, name: "farm", color: '#ff2727ff' },
     { id: 2, x: 5, y: 5, width: 2, height: 1, name: "death", color: '#4ecdc4' },
@@ -15,13 +16,11 @@ const DraggableGrid = () => {
 
   const gridRef = useRef(null);
 
-  const getGridPosition = useCallback((clientX, clientY) => {
+  const getGridPosition = useCallback((relativeX, relativeY) => {
     if (!gridRef.current) return { x: 0, y: 0 };
 
     const gridRect = gridRef.current.getBoundingClientRect();
-    const relativeX = clientX - gridRect.left;
-    const relativeY = clientY - gridRect.top;
-
+    
     const gridX = Math.floor(relativeX / CELL_SIZE);
     const gridY = Math.floor(relativeY / CELL_SIZE);
 
@@ -33,6 +32,14 @@ const DraggableGrid = () => {
   }, []);
 
   const handleDragStart = (e, item) => {
+    const gridRect = gridRef.current.getBoundingClientRect();
+    const itemRect = e.target.getBoundingClientRect();
+
+    // Distance from the item's top-left corner to the cursor
+    const offsetX = e.clientX - itemRect.left;
+    const offsetY = e.clientY - itemRect.top;
+
+    setDragOffset({ x: offsetX, y: offsetY });
     setDraggedItem(item);
     e.dataTransfer.setData("text/plain", ""); // Required for Firefox
     e.dataTransfer.effectAllowed = "move";
@@ -48,11 +55,15 @@ const DraggableGrid = () => {
 
     if (!draggedItem) return;
 
-    const newPosition = getGridPosition(e.clientX, e.clientY);
+    const gridRect = gridRef.current.getBoundingClientRect();
+    const relativeX = e.clientX - gridRect.left - dragOffset.x;
+    const relativeY = e.clientY - gridRect.top - dragOffset.y;
 
-    setItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === draggedItem.id
+    const newPosition = getGridPosition(relativeX, relativeY);
+    
+    setItems(prevItems => 
+      prevItems.map(item => 
+        item.id === draggedItem.id 
           ? { ...item, x: newPosition.x, y: newPosition.y }
           : item
       )
