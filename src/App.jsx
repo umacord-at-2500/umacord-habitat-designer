@@ -129,7 +129,7 @@ const DraggableGrid = () => {
 
   const [horizontalDim, setHorizontalDim] = useState("1");
   const [verticalDim, setVerticalDim] = useState("1");
-  const [colourType, setColourType] = useState("food storage");
+  const [colourType, setColourType] = useState("Food storage");
   const [customColor, setCustomColor] = useState("#ff2727ff");
   const [itemLayer, setItemLayer] = useState("1");
   const [currentLayer, setCurrentLayer] = useState("1");
@@ -149,6 +149,8 @@ const DraggableGrid = () => {
       return "#2793ffff";
     } else if (colourType == "Corridor") {
       return "rgb(101 101 101)";
+    } else if (colourType == "Entertainment") {
+      return "#9a27ffff";
     }
     return customColor;
   };
@@ -409,7 +411,7 @@ const DraggableGrid = () => {
                         );
                       }}
                     >
-                      <option value="food storage">food storage</option>
+                      <option value="food storage">Food storage</option>
                       <option value="waste management">waste management</option>
                       <option value="communication">communication</option>
                       <option value="farm">farm</option>
