@@ -1,76 +1,85 @@
-/* src/App.css */
+body {
+  background-image: url('bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  margin: 0;
+  min-height: 100vh;
+}
+
 .app {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  color: #ffffff;
+  border-radius: 10px;
+  margin-top: 20px;
 }
 
 h1 {
   text-align: center;
-  color: #333;
+  color: #d0b3ff;
+  /* color: rgb(216, 216, 41); */
   margin-bottom: 30px;
+  text-shadow: 0 0 10px rgba(138, 138, 255, 0.5);
 }
 
 .controls {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto auto;
   gap: 15px;
   align-items: center;
   margin-bottom: 20px;
-  flex-wrap: wrap;
+  background: rgba(26, 26, 58, 0.8);
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #3a3a7a;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 button {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
-  color: white;
+  background: #2a2a5a;
+  color: #e0e0ff;
   cursor: pointer;
   font-size: 14px;
-  transition: background-color 0.2s;
+  border: 1px solid #4a4a8a;
 }
 
 button:hover {
-  background-color: #0056b3;
-}
-
-button:last-of-type {
-  background-color: #dc3545;
-}
-
-button:last-of-type:hover {
-  background-color: #c82333;
+  background: #3a3a7a;
 }
 
 .hint {
-  color: #666;
+  color: #a0a0ff;
   font-size: 14px;
-  font-style: italic;
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-top: 10px;
 }
 
 .grid {
   display: grid;
   position: relative;
-  border: 2px solid #333;
-  background-color: #f8f9fa;
-  margin-bottom: 30px;
+  border: 2px solid #3a3a7a;
+  background: #1a1a3a;
+  margin: 0 auto 30px;
   user-select: none;
   width: fit-content;
 }
 
 .grid-cell {
-  border: 1px solid #ddd;
-  background-color: white;
-  transition: background-color 0.2s;
-}
-
-.grid-cell:nth-child(odd) {
-  background-color: #f8f9fa;
-}
-
-.grid-cell:hover {
-  background-color: #e9ecef;
+  border: 1px solid #2a2a5a;
+  background: #0f0f2a;
 }
 
 .draggable-item {
@@ -78,7 +87,7 @@ button:last-of-type:hover {
   width: calc(100% - 10px);
   height: calc(100% - 10px);
   margin: 5px;
-  border: 2px solid #333;
+  border: 2px solid #8a8aff;
   border-radius: 5px;
   cursor: grab;
   display: flex;
@@ -86,39 +95,24 @@ button:last-of-type:hover {
   justify-content: center;
   font-weight: bold;
   color: white;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-  transition: transform 0.1s, box-shadow 0.2s;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.draggable-item:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .draggable-item:active {
   cursor: grabbing;
-  transform: scale(1.02);
-}
-
-.draggable-item.dragging {
-  opacity: 0.7;
-}
-
-.item-coordinates {
-  font-size: 12px;
-  pointer-events: none;
 }
 
 .items-list {
-  background-color: #f8f9fa;
+  background: rgba(26, 26, 58, 0.9);
   padding: 20px;
   border-radius: 5px;
+  border: 1px solid #3a3a7a;
 }
 
 .items-list h3 {
   margin-top: 0;
-  color: #333;
+  color: #8a8aff;
 }
 
 .items-list ul {
@@ -128,31 +122,26 @@ button:last-of-type:hover {
 }
 
 .items-list li {
-  padding: 5px 0;
-  border-bottom: 1px solid #ddd;
+  padding: 8px 0;
+  border-bottom: 1px solid #2a2a5a;
+  color: #ffffff;
 }
 
 .items-list li:last-child {
   border-bottom: none;
 }
 
-/* Responsive design */
-@media (max-width: 600px) {
-  .app {
-    padding: 10px;
-  }
-  
-  .controls {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .hint {
-    text-align: center;
-  }
-  
-  .grid {
-    transform: scale(0.9);
-    transform-origin: top left;
-  }
+select {
+  padding: 8px 12px;
+  border: 1px solid #3a3a7a;
+  border-radius: 5px;
+  background: #1a1a3a;
+  color: #e0e0ff;
+  font-size: 14px;
+}
+
+label {
+  color: #a0a0ff;
+  font-size: 14px;
+  font-weight: bold;
 }

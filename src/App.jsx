@@ -140,13 +140,14 @@ const DraggableGrid = () => {
       <h1>Umacord at 25:00</h1>
 
       <div className="controls">
+      <div className="control-group">
         <button onClick={addNewSquare}>Add Square</button>
-        <label>
-          Horizontal dimension:
-        </label>
-        <select
-          value={horizontalDim}
-          onChange={e => setHorizontalDim(e.target.value)}>
+        <button onClick={clearAll}>Clear All</button>
+      </div>
+      
+      <div className="control-group">
+        <label>Horizontal:</label>
+        <select value={horizontalDim} onChange={e => setHorizontalDim(e.target.value)}>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -154,12 +155,9 @@ const DraggableGrid = () => {
           <option value="5">5</option>
           <option value="6">6</option>
         </select>
-        <label>
-          Vertical dimension:
-        </label>
-        <select
-          value={verticalDim}
-          onChange={e => setVerticalDim(e.target.value)}>
+        
+        <label>Vertical:</label>
+        <select value={verticalDim} onChange={e => setVerticalDim(e.target.value)}>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -167,12 +165,11 @@ const DraggableGrid = () => {
           <option value="5">5</option>
           <option value="6">6</option>
         </select>
-        <label>
-          Type:
-        </label>
-        <select
-          value={colourType}
-          onChange={e => setColourType(e.target.value)}>
+      </div>
+      
+      <div className="control-group">
+        <label>Type:</label>
+        <select value={colourType} onChange={e => setColourType(e.target.value)}>
           <option value="food storage">food storage</option>
           <option value="waste management">waste management</option>
           <option value="communication">communication</option>
@@ -180,12 +177,9 @@ const DraggableGrid = () => {
           <option value="resting bay">resting bay</option>
           <option value="entertainment">entertainment</option>
         </select>
-        <label>
-          Item Layer:
-        </label>
-        <select
-          value={itemLayer}
-          onChange={e => setItemLayer(e.target.value)}>
+        
+        <label>Item Layer:</label>
+        <select value={itemLayer} onChange={e => setItemLayer(e.target.value)}>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -193,12 +187,9 @@ const DraggableGrid = () => {
           <option value="5">5</option>
           <option value="6">6</option>
         </select>
-        <label>
-          Current Layer:
-        </label>
-        <select
-          value={currentLayer}
-          onChange={e => setCurrentLayer(e.target.value)}>
+        
+        <label>Current Layer:</label>
+        <select value={currentLayer} onChange={e => setCurrentLayer(e.target.value)}>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -206,15 +197,12 @@ const DraggableGrid = () => {
           <option value="5">5</option>
           <option value="6">6</option>
         </select>
-
-        <button onClick={clearAll}>Clear All</button>
-        <span className="hint">
-          Drag and drop squares to move them around the grid
-        </span>
-        <span className="hint">
-          Double click to delete items
-        </span>
       </div>
+      
+      <span className="hint">
+        Drag and drop squares to move them around the grid • Double click to delete items
+      </span>
+    </div>
 
       <div
         ref={gridRef}
