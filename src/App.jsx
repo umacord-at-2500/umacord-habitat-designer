@@ -216,7 +216,7 @@ const DraggableGrid = () => {
             <option value="Food Storage">Food Storage</option>
             <option value="Waste Management">Waste Management</option>
             <option value="Communication">Communication</option>
-            <option value="Farm">Farm</option>
+            <option value="Farmland">Farmland</option>
             <option value="Resting Bay">Resting Bay</option>
             <option value="Entertainment">Entertainment</option>
             <option value="Corridor">Corridor</option>
