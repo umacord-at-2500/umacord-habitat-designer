@@ -214,7 +214,7 @@ const DraggableGrid = () => {
             }}
           >
             <span className="item-coordinates">
-              {item.x},{item.y}
+              {item.name}
             </span>
           </div>
         ))}
@@ -228,7 +228,7 @@ const DraggableGrid = () => {
           <ul>
             {items.map((item) => (
               <li key={item.id} style={{ color: item.color }}>
-                Square at position ({item.x}, {item.y})
+                {item.name} area of {item.width} x {item.height} at position ({item.x}, {item.y})
               </li>
             ))}
           </ul>
