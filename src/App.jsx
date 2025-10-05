@@ -130,7 +130,7 @@ const DraggableGrid = () => {
   const [horizontalDim, setHorizontalDim] = useState("1");
   const [verticalDim, setVerticalDim] = useState("1");
   const [colourType, setColourType] = useState("food storage");
-  const [customColor, setCustomColor] = useState("#8827ffff");
+  const [customColor, setCustomColor] = useState("#ff2727ff");
   const [itemLayer, setItemLayer] = useState("1");
   const [currentLayer, setCurrentLayer] = useState("1");
   const [editorState, setEditorState] = useState(false);
@@ -211,6 +211,7 @@ const DraggableGrid = () => {
           <select
             value={colourType}
             onChange={(e) => setColourType(e.target.value)}
+            onChangeComplete={() => setCustomColor(null)}
           >
             <option value="Food Storage">Food Storage</option>
             <option value="Waste Management">Waste Management</option>
