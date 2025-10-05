@@ -157,4 +157,16 @@ input {
   background: #1a1a3a;
   color: #e0e0ff;
   font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+input:hover {
+  border-color: #8a8aff;
+}
+
+input:focus {
+  outline: none;
+  border-color: #8a8aff;
+  box-shadow: 0 0 0 2px rgba(138, 138, 255, 0.3);
+  background: #2a2a5a;
 }
