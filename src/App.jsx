@@ -8,7 +8,7 @@ const CELL_SIZE = 50; // 50px per cell
 const DraggableGrid = () => {
   const [draggedItem, setDraggedItem] = useState(null);
   const [items, setItems] = useState([
-    { id: 1, x: 2, y: 3, width: 1, height: 1, name: "farm", color: '#ff6b6b' },
+    { id: 1, x: 2, y: 3, width: 1, height: 1, name: "farm", color: '#ff2727ff' },
     { id: 2, x: 5, y: 5, width: 2, height: 1, name: "death", color: '#4ecdc4' },
     { id: 3, x: 7, y: 1, width: 2, height: 2, name: "minecraft", color: '#45b7d1' }
   ]);
@@ -70,10 +70,10 @@ const DraggableGrid = () => {
       id: Date.now(),
       x: 0,
       y: 0,
-      width: 1,
-      height: 1,
-      name: "new",
-      color: `hsl(${Math.random() * 360}, 70%, 60%)`
+      width: horizontalDim,
+      height: verticalDim,
+      name: colourType,
+      color: colour
     };
     setItems(prev => [...prev, newItem]);
   };
@@ -82,12 +82,80 @@ const DraggableGrid = () => {
     setItems([]);
   };
 
+  const [horizontalDim, setHorizontalDim] = useState('1');
+  const [verticalDim, setVerticalDim] = useState('1');
+  const [colourType, setColourType] = useState('food storage');
+
+  const colourFromType = (colourType) => {
+    // Example transformation: convert to uppercase and add a suffix
+    if (colourType == "food storage" ) {
+      return "#ff2727ff"
+    }
+    else if (colourType == "waste management" ) {
+      return "#ff9a27ff"
+    }
+    else if (colourType == "communication" ) {
+      return "#f1ff27ff"
+    }
+    else if (colourType == "farm" ) {
+      return "#40ff27ff"
+    }
+    else if (colourType == "resting bay" ) {
+      return "#2793ffff"
+    }
+    return "#8827ffff"
+  };
+
+  const colour = colourFromType(colourType);
+
+
+  
   return (
     <div className="app">
       <h1>Draggable Grid</h1>
       
       <div className="controls">
         <button onClick={addNewSquare}>Add Square</button>
+        <label>
+          Horizontal dimension:
+        </label>
+        <select
+          value={horizontalDim}
+          onChange={e => setHorizontalDim(e.target.value)}>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        </select>
+        <label>
+          Vertical dimension:
+        </label>
+        <select
+          value={verticalDim}
+          onChange={e => setVerticalDim(e.target.value)}>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        </select>
+        <label>
+          Type:
+        </label>
+        <select
+          value={colourType}
+          onChange={e => setColourType(e.target.value)}>
+          <option value="food storage">food storage</option>
+          <option value="waste management">waste management</option>
+          <option value="communication">communication</option>
+          <option value="farm">farm</option>
+          <option value="resting bay">resting bay</option>
+          <option value="entertainment">entertainment</option>
+        </select>
+
         <button onClick={clearAll}>Clear All</button>
         <span className="hint">Drag and drop squares to move them around the grid</span>
       </div>
