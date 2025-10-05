@@ -2,16 +2,16 @@
 import React, { useState, useRef, useCallback } from "react";
 import "./App.css";
 
-const GRID_SIZE = 10; // 10x10 grid
+const GRID_SIZE = 16; // 10x10 grid
 const CELL_SIZE = 50; // 50px per cell
 
 const DraggableGrid = () => {
   const [draggedItem, setDraggedItem] = useState(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [items, setItems] = useState([
-    { id: 1, layer: '1', x: 2, y: 3, width: 1, height: 1, name: "farm", color: '#ff2727ff' },
-    { id: 2, layer: '2', x: 5, y: 5, width: 2, height: 1, name: "death", color: '#4ecdc4' },
-    { id: 3, layer: '3', x: 7, y: 1, width: 2, height: 2, name: "minecraft", color: '#45b7d1' }
+    { id: 1, layer: '1', x: 2, y: 3, width: 1, height: 1, name: "farm", color: '#ff2727ff', editor: false },
+    { id: 2, layer: '2', x: 5, y: 5, width: 2, height: 1, name: "death", color: '#4ecdc4', editor: false },
+    { id: 3, layer: '3', x: 7, y: 1, width: 2, height: 2, name: "minecraft", color: '#45b7d1', editor: false }
   ]);
 
   const gridRef = useRef(null);
@@ -85,7 +85,8 @@ const DraggableGrid = () => {
       width: horizontalDim,
       height: verticalDim,
       name: colourType,
-      color: colour
+      color: colour,
+      editor: editorState
     };
     setItems((prev) => [...prev, newItem]);
   };
@@ -99,6 +100,7 @@ const DraggableGrid = () => {
   const [colourType, setColourType] = useState('food storage');
   const [itemLayer, setItemLayer] = useState('1');
   const [currentLayer, setCurrentLayer] = useState('1');
+  const [editorState, setEditorState] = useState(false)
 
   const colourFromType = (colourType) => {
     // Example transformation: convert to uppercase and add a suffix
@@ -121,14 +123,16 @@ const DraggableGrid = () => {
   };
 
   const colour = colourFromType(colourType);
-
-
   
   const handleDoubleClick = (item) => {
     return () => {
       setItems((prev) => prev.filter((i) => i.id !== item.id));
     };
   };
+
+  const toggleEditor = (item) => {
+    setEditorState(!item.editor);
+  }
 
   return (
     <div className="app">
@@ -206,6 +210,9 @@ const DraggableGrid = () => {
         <span className="hint">
           Drag and drop squares to move them around the grid
         </span>
+        <span className="hint">
+          Double click to delete items
+        </span>
       </div>
 
       <div
@@ -259,6 +266,7 @@ const DraggableGrid = () => {
             {items.map((item) => (
               <li key={item.id} style={{ color: item.color }}>
                 Layer {item.layer}: {item.name} area of {item.width} x {item.height} at position ({item.x}, {item.y})
+                {!item.editorState ? (<button style={{marginLeft: '30px'}} onClick={() => setEditorState(item)}>edit</button>) : (null)}
               </li>
             ))}
           </ul>
