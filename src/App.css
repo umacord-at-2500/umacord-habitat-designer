@@ -56,6 +56,7 @@ button:last-of-type:hover {
   background-color: #f8f9fa;
   margin-bottom: 30px;
   user-select: none;
+  width: fit-content;
 }
 
 .grid-cell {
