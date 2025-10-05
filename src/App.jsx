@@ -129,7 +129,7 @@ const DraggableGrid = () => {
 
   return (
     <div className="app">
-      <h1>Draggable Grid</h1>
+      <h1>Umacord at 25:00</h1>
 
       <div className="controls">
         <button onClick={addNewSquare}>Add Square</button>
