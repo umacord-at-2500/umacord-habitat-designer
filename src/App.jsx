@@ -241,12 +241,6 @@ const DraggableGrid = () => {
           <option value="5">5</option>
           <option value="6">6</option>
         </select>
-
-        <button onClick={clearAll}>Clear All</button>
-        <span className="hint">
-          Drag and drop squares to move them around the grid
-        </span>
-        <span className="hint">Double click to delete items</span>
       </div>
       
       <span className="hint">
