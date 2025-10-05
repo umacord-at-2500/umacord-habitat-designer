@@ -2,8 +2,9 @@
 import React, { useState, useRef, useCallback } from "react";
 import "./App.css";
 
-const GRID_SIZE = 10; // 10x10 grid
-const CELL_SIZE = 50; // 50px per cell
+const GRID_COLUMNS = 30; // 15 columns
+const GRID_ROWS = 20;    // 10 rows
+const CELL_SIZE = 30; // 50px per cell
 
 const DraggableGrid = () => {
   const [draggedItem, setDraggedItem] = useState(null);
@@ -26,8 +27,8 @@ const DraggableGrid = () => {
 
     // Constrain to grid boundaries
     return {
-      x: Math.max(0, Math.min(GRID_SIZE - 1, gridX)),
-      y: Math.max(0, Math.min(GRID_SIZE - 1, gridY)),
+      x: Math.max(0, Math.min(GRID_COLUMNS - 1, gridX)),
+      y: Math.max(0, Math.min(GRID_ROWS - 1, gridY)),
     };
   }, []);
 
@@ -214,14 +215,14 @@ const DraggableGrid = () => {
         onDragOver={handleDragOver}
         onDrop={handleDrop}
         style={{
-          gridTemplateColumns: `repeat(${GRID_SIZE}, ${CELL_SIZE}px)`,
-          gridTemplateRows: `repeat(${GRID_SIZE}, ${CELL_SIZE}px)`,
+          gridTemplateColumns: `repeat(${GRID_COLUMNS}, ${CELL_SIZE}px)`,
+          gridTemplateRows: `repeat(${GRID_ROWS}, ${CELL_SIZE}px)`,
         }}
       >
         {/* Render grid cells */}
-        {Array.from({ length: GRID_SIZE * GRID_SIZE }).map((_, index) => {
-          const x = index % GRID_SIZE;
-          const y = Math.floor(index / GRID_SIZE);
+        {Array.from({ length: GRID_COLUMNS * GRID_ROWS }).map((_, index) => {
+          const x = index % GRID_COLUMNS;
+          const y = Math.floor(index / GRID_COLUMNS);
           return (
             <div key={index} className="grid-cell" data-x={x} data-y={y} />
           );
