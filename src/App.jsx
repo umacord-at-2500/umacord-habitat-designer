@@ -1,5 +1,6 @@
 // src/App.jsx
 import React, { useState, useRef, useCallback } from "react";
+import { CirclePicker } from "react-color";
 import "./App.css";
 
 const GRID_COLUMNS = 30; // 15 columns
@@ -129,6 +130,7 @@ const DraggableGrid = () => {
   const [horizontalDim, setHorizontalDim] = useState("1");
   const [verticalDim, setVerticalDim] = useState("1");
   const [colourType, setColourType] = useState("food storage");
+  const [customColor, setCustomColor] = useState("#8827ffff");
   const [itemLayer, setItemLayer] = useState("1");
   const [currentLayer, setCurrentLayer] = useState("1");
   const [editorState, setEditorState] = useState(false);
@@ -148,10 +150,14 @@ const DraggableGrid = () => {
     } else if (colourType == "Corridor") {
       return "rgb(101 101 101)";
     }
-    return "#8827ffff";
+    return customColor;
   };
 
   const colour = colourFromType(colourType);
+
+  const handleChangeComplete = (color) => {
+    setCustomColor(color.hex);
+  };
 
   const handleDoubleClick = (item) => {
     return () => {
@@ -160,93 +166,122 @@ const DraggableGrid = () => {
   };
 
   const toggleEditor = (item) => {
-    setItems(prevItems =>
-        prevItems.map(i =>
-            i.id === item.id ? { ...i, editor: !i.editor } : i
-        )
+    setItems((prevItems) =>
+      prevItems.map((i) => (i.id === item.id ? { ...i, editor: !i.editor } : i))
     );
-  }
+  };
 
   return (
     <div className="app">
       <h1>Umacord at 25:00</h1>
 
       <div className="controls">
-      <div className="control-group">
-        <button onClick={addNewSquare}>Add Square</button>
-        <button onClick={clearAll}>Clear All</button>
+        <div className="control-group">
+          <button onClick={addNewSquare}>Add Square</button>
+          <button onClick={clearAll}>Clear All</button>
+        </div>
+
+        <div className="control-group">
+          <label>Horizontal:</label>
+          <select
+            value={horizontalDim}
+            onChange={(e) => setHorizontalDim(e.target.value)}
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select>
+
+          <label>Vertical:</label>
+          <select
+            value={verticalDim}
+            onChange={(e) => setVerticalDim(e.target.value)}
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select>
+          <label>Type:</label>
+          <select
+            value={colourType}
+            onChange={(e) => setColourType(e.target.value)}
+          >
+            <option value="Food Storage">Food Storage</option>
+            <option value="Waste Management">Waste Management</option>
+            <option value="Communication">Communication</option>
+            <option value="Farm">Farm</option>
+            <option value="Resting Bay">Resting Bay</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Corridor">Corridor</option>
+          </select>
+          <label>Item Layer:</label>
+          <select
+            value={itemLayer}
+            onChange={(e) => setItemLayer(e.target.value)}
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select>
+          <label>Current Layer:</label>
+          <select
+            value={currentLayer}
+            onChange={(e) => setCurrentLayer(e.target.value)}
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select>
+        </div>
+        <br></br>
+        <div style={{ marginLeft: "125%", marginRight: "-100%" }}>
+          <label
+            value={colourType}
+            onChange={(e) => setColourType(e.target.value)}
+          >
+            Custom Type:
+            <br></br>
+            <input type="text" name="Custom Type" />
+          </label>
+        </div>
+        <div style={{ marginLeft: "40%", marginTop: "10px" }}>
+          <CirclePicker
+            color={customColor}
+            onChangeComplete={handleChangeComplete}
+            colors={[
+              "#f44336",
+              "#e91e63",
+              "#9c27b0",
+              "#673ab7",
+              "#3f51b5",
+              "#2196f3",
+              "#03a9f4",
+              "#00bcd4",
+              "#009688",
+              "#4caf50",
+              "#8bc34a",
+              "#cddc39",
+            ]}
+          />
+        </div>
+
+        <span className="hint">
+          Drag and drop squares to move them around the grid • Double click to
+          delete items
+        </span>
       </div>
-      
-      <div className="control-group">
-        <label>Horizontal:</label>
-        <select value={horizontalDim} onChange={e => setHorizontalDim(e.target.value)}>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-        </select>
-        
-        <label>Vertical:</label>
-        <select value={verticalDim} onChange={e => setVerticalDim(e.target.value)}>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-        </select>
-        <label>Type:</label>
-        <select
-          value={colourType}
-          onChange={(e) => setColourType(e.target.value)}
-        >
-          <option value="Food Storage">Food Storage</option>
-          <option value="Waste Management">Waste Management</option>
-          <option value="Communication">Communication</option>
-          <option value="Farm">Farm</option>
-          <option value="Resting Bay">Resting Bay</option>
-          <option value="Entertainment">Entertainment</option>
-          <option value="Corridor">Corridor</option>
-        </select>
-        <label
-          value={colourType}
-          onChange={(e) => setColourType(e.target.value)}
-        >
-          Custom Type:
-          <input type="text" name="Custom Type" />
-        </label>
-        <label>Item Layer:</label>
-        <select
-          value={itemLayer}
-          onChange={(e) => setItemLayer(e.target.value)}
-        >
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-        </select>
-        <label>Current Layer:</label>
-        <select
-          value={currentLayer}
-          onChange={(e) => setCurrentLayer(e.target.value)}
-        >
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-        </select>
-      </div>
-      
-      <span className="hint">
-        Drag and drop squares to move them around the grid • Double click to delete items
-      </span>
-    </div>
 
       <div
         ref={gridRef}
@@ -299,90 +334,109 @@ const DraggableGrid = () => {
           <ul>
             {items.map((item) => (
               <li key={item.id} style={{ color: item.color }}>
-                Layer {item.layer}: {item.name} area of {item.width} x {item.height} at position ({item.x}, {item.y})
-                {!item.editor ? (<button style={{marginLeft: '30px'}} onClick={() => toggleEditor(item)}>edit</button>) : 
-                                (<button style={{marginLeft: '30px'}} onClick={() => toggleEditor(item)}>close</button>)}
+                Layer {item.layer}: {item.name} area of {item.width} x{" "}
+                {item.height} at position ({item.x}, {item.y})
+                {!item.editor ? (
+                  <button
+                    style={{ marginLeft: "30px" }}
+                    onClick={() => toggleEditor(item)}
+                  >
+                    edit
+                  </button>
+                ) : (
+                  <button
+                    style={{ marginLeft: "30px" }}
+                    onClick={() => toggleEditor(item)}
+                  >
+                    close
+                  </button>
+                )}
                 {item.editor && (
-                    <div style={{ marginTop: "10px", marginLeft: "20px" }}>
-                        <label>
-                        Horizontal dimension:
-                        </label>
-                        <select
-                        value={item.width}
-                        onChange={e =>
-                            setItems(prev =>
-                            prev.map(i =>
-                                i.id === item.id ? { ...i, width: parseInt(e.target.value) } : i
-                            )
-                            )
-                        }
-                        >
-                        {[1, 2, 3, 4, 5, 6].map(n => (
-                            <option key={n} value={n}>{n}</option>
-                        ))}
-                        </select>
+                  <div style={{ marginTop: "10px", marginLeft: "20px" }}>
+                    <label>Horizontal dimension:</label>
+                    <select
+                      value={item.width}
+                      onChange={(e) =>
+                        setItems((prev) =>
+                          prev.map((i) =>
+                            i.id === item.id
+                              ? { ...i, width: parseInt(e.target.value) }
+                              : i
+                          )
+                        )
+                      }
+                    >
+                      {[1, 2, 3, 4, 5, 6].map((n) => (
+                        <option key={n} value={n}>
+                          {n}
+                        </option>
+                      ))}
+                    </select>
 
-                        <label>
-                        Vertical dimension:
-                        </label>
-                        <select
-                        value={item.height}
-                        onChange={e =>
-                            setItems(prev =>
-                            prev.map(i =>
-                                i.id === item.id ? { ...i, height: parseInt(e.target.value) } : i
-                            )
-                            )
-                        }
-                        >
-                        {[1, 2, 3, 4, 5, 6].map(n => (
-                            <option key={n} value={n}>{n}</option>
-                        ))}
-                        </select>
+                    <label>Vertical dimension:</label>
+                    <select
+                      value={item.height}
+                      onChange={(e) =>
+                        setItems((prev) =>
+                          prev.map((i) =>
+                            i.id === item.id
+                              ? { ...i, height: parseInt(e.target.value) }
+                              : i
+                          )
+                        )
+                      }
+                    >
+                      {[1, 2, 3, 4, 5, 6].map((n) => (
+                        <option key={n} value={n}>
+                          {n}
+                        </option>
+                      ))}
+                    </select>
 
-                        <label>
-                        Type:
-                        </label>
-                        <select
-                        value={item.name}
-                        onChange={e => {
-                            const newType = e.target.value;
-                            const newColor = colourFromType(newType);
-                            setItems(prev =>
-                            prev.map(i =>
-                                i.id === item.id ? { ...i, name: newType, color: newColor } : i
-                            )
-                            );
-                        }}
-                        >
-                        <option value="food storage">food storage</option>
-                        <option value="waste management">waste management</option>
-                        <option value="communication">communication</option>
-                        <option value="farm">farm</option>
-                        <option value="resting bay">resting bay</option>
-                        <option value="entertainment">entertainment</option>
-                        </select>
+                    <label>Type:</label>
+                    <select
+                      value={item.name}
+                      onChange={(e) => {
+                        const newType = e.target.value;
+                        const newColor = colourFromType(newType);
+                        setItems((prev) =>
+                          prev.map((i) =>
+                            i.id === item.id
+                              ? { ...i, name: newType, color: newColor }
+                              : i
+                          )
+                        );
+                      }}
+                    >
+                      <option value="food storage">food storage</option>
+                      <option value="waste management">waste management</option>
+                      <option value="communication">communication</option>
+                      <option value="farm">farm</option>
+                      <option value="resting bay">resting bay</option>
+                      <option value="entertainment">entertainment</option>
+                    </select>
 
-                        <label>
-                        Item Layer:
-                        </label>
-                        <select
-                        value={item.layer}
-                        onChange={e =>
-                            setItems(prev =>
-                            prev.map(i =>
-                                i.id === item.id ? { ...i, layer: e.target.value } : i
-                            )
-                            )
-                        }
-                        >
-                        {[1, 2, 3, 4, 5, 6].map(n => (
-                            <option key={n} value={n}>{n}</option>
-                        ))}
-                        </select>
-                    </div>
-                    )}
-
+                    <label>Item Layer:</label>
+                    <select
+                      value={item.layer}
+                      onChange={(e) =>
+                        setItems((prev) =>
+                          prev.map((i) =>
+                            i.id === item.id
+                              ? { ...i, layer: e.target.value }
+                              : i
+                          )
+                        )
+                      }
+                    >
+                      {[1, 2, 3, 4, 5, 6].map((n) => (
+                        <option key={n} value={n}>
+                          {n}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
               </li>
             ))}
           </ul>
