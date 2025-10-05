@@ -9,9 +9,9 @@ const DraggableGrid = () => {
   const [draggedItem, setDraggedItem] = useState(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [items, setItems] = useState([
-    { id: 1, x: 2, y: 3, width: 1, height: 1, name: "farm", color: '#ff2727ff' },
-    { id: 2, x: 5, y: 5, width: 2, height: 1, name: "death", color: '#4ecdc4' },
-    { id: 3, x: 7, y: 1, width: 2, height: 2, name: "minecraft", color: '#45b7d1' }
+    { id: 1, layer: '1', x: 2, y: 3, width: 1, height: 1, name: "farm", color: '#ff2727ff' },
+    { id: 2, layer: '2', x: 5, y: 5, width: 2, height: 1, name: "death", color: '#4ecdc4' },
+    { id: 3, layer: '3', x: 7, y: 1, width: 2, height: 2, name: "minecraft", color: '#45b7d1' }
   ]);
 
   const gridRef = useRef(null);
@@ -79,6 +79,7 @@ const DraggableGrid = () => {
   const addNewSquare = () => {
     const newItem = {
       id: Date.now(),
+      layer: itemLayer,
       x: 0,
       y: 0,
       width: horizontalDim,
@@ -96,6 +97,8 @@ const DraggableGrid = () => {
   const [horizontalDim, setHorizontalDim] = useState('1');
   const [verticalDim, setVerticalDim] = useState('1');
   const [colourType, setColourType] = useState('food storage');
+  const [itemLayer, setItemLayer] = useState('1');
+  const [currentLayer, setCurrentLayer] = useState('1');
 
   const colourFromType = (colourType) => {
     // Example transformation: convert to uppercase and add a suffix
@@ -113,7 +116,7 @@ const DraggableGrid = () => {
     }
     else if (colourType == "resting bay" ) {
       return "#2793ffff"
-    }
+    }   
     return "#8827ffff"
   };
 
@@ -172,6 +175,32 @@ const DraggableGrid = () => {
           <option value="resting bay">resting bay</option>
           <option value="entertainment">entertainment</option>
         </select>
+        <label>
+          Item Layer:
+        </label>
+        <select
+          value={itemLayer}
+          onChange={e => setItemLayer(e.target.value)}>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        </select>
+        <label>
+          Current Layer:
+        </label>
+        <select
+          value={currentLayer}
+          onChange={e => setCurrentLayer(e.target.value)}>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        </select>
 
         <button onClick={clearAll}>Clear All</button>
         <span className="hint">
@@ -200,23 +229,24 @@ const DraggableGrid = () => {
 
         {/* Render draggable items */}
         {items.map((item) => (
-          <div
-            key={item.id}
-            className="draggable-item"
-            draggable
-            onDragStart={(e) => handleDragStart(e, item)}
-            onDragEnd={handleDragEnd}
-            onDoubleClick={handleDoubleClick(item)}
-            style={{
-              gridColumn: `${item.x + 1} / span ${item.width}`,
-              gridRow: `${item.y + 1} / span ${item.height}`,
-              backgroundColor: item.color,
-            }}
-          >
+            item.layer === currentLayer ? (
+            <div
+                key={item.id}
+                className="draggable-item"
+                draggable
+                onDragStart={(e) => handleDragStart(e, item)}
+                onDragEnd={handleDragEnd}
+                onDoubleClick={handleDoubleClick(item)}
+                style={{
+                gridColumn: `${item.x + 1} / span ${item.width}`,
+                gridRow: `${item.y + 1} / span ${item.height}`,
+                backgroundColor: item.color,
+                }}
+            >
             <span className="item-coordinates">
               {item.name}
             </span>
-          </div>
+            </div> ) : (<div/>) 
         ))}
       </div>
 
