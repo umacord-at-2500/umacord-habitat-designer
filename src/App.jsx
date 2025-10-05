@@ -3,16 +3,46 @@ import React, { useState, useRef, useCallback } from "react";
 import "./App.css";
 
 const GRID_COLUMNS = 30; // 15 columns
-const GRID_ROWS = 20;    // 10 rows
+const GRID_ROWS = 20; // 10 rows
 const CELL_SIZE = 30; // 50px per cell
 
 const DraggableGrid = () => {
   const [draggedItem, setDraggedItem] = useState(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [items, setItems] = useState([
-    { id: 1, layer: '1', x: 2, y: 3, width: 1, height: 1, name: "farm", color: '#ff2727ff', editor: false },
-    { id: 2, layer: '2', x: 5, y: 5, width: 2, height: 1, name: "death", color: '#4ecdc4', editor: false },
-    { id: 3, layer: '3', x: 7, y: 1, width: 2, height: 2, name: "minecraft", color: '#45b7d1', editor: false }
+    {
+      id: 1,
+      layer: "1",
+      x: 2,
+      y: 3,
+      width: 1,
+      height: 1,
+      name: "farm",
+      color: "#ff2727ff",
+      editor: false,
+    },
+    {
+      id: 2,
+      layer: "2",
+      x: 5,
+      y: 5,
+      width: 2,
+      height: 1,
+      name: "death",
+      color: "#4ecdc4",
+      editor: false,
+    },
+    {
+      id: 3,
+      layer: "3",
+      x: 7,
+      y: 1,
+      width: 2,
+      height: 2,
+      name: "minecraft",
+      color: "#45b7d1",
+      editor: false,
+    },
   ]);
 
   const gridRef = useRef(null);
@@ -21,7 +51,7 @@ const DraggableGrid = () => {
     if (!gridRef.current) return { x: 0, y: 0 };
 
     const gridRect = gridRef.current.getBoundingClientRect();
-    
+
     const gridX = Math.floor(relativeX / CELL_SIZE);
     const gridY = Math.floor(relativeY / CELL_SIZE);
 
@@ -61,10 +91,10 @@ const DraggableGrid = () => {
     const relativeY = e.clientY - gridRect.top - dragOffset.y;
 
     const newPosition = getGridPosition(relativeX, relativeY);
-    
-    setItems(prevItems => 
-      prevItems.map(item => 
-        item.id === draggedItem.id 
+
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === draggedItem.id
           ? { ...item, x: newPosition.x, y: newPosition.y }
           : item
       )
@@ -87,7 +117,7 @@ const DraggableGrid = () => {
       height: verticalDim,
       name: colourType,
       color: colour,
-      editor: editorState
+      editor: editorState,
     };
     setItems((prev) => [...prev, newItem]);
   };
@@ -96,35 +126,33 @@ const DraggableGrid = () => {
     setItems([]);
   };
 
-  const [horizontalDim, setHorizontalDim] = useState('1');
-  const [verticalDim, setVerticalDim] = useState('1');
-  const [colourType, setColourType] = useState('food storage');
-  const [itemLayer, setItemLayer] = useState('1');
-  const [currentLayer, setCurrentLayer] = useState('1');
+  const [horizontalDim, setHorizontalDim] = useState("1");
+  const [verticalDim, setVerticalDim] = useState("1");
+  const [colourType, setColourType] = useState("food storage");
+  const [itemLayer, setItemLayer] = useState("1");
+  const [currentLayer, setCurrentLayer] = useState("1");
   const [editorState, setEditorState] = useState(false);
 
   const colourFromType = (colourType) => {
     // Example transformation: convert to uppercase and add a suffix
-    if (colourType == "food storage" ) {
-      return '#ff2727ff'
+    if (colourType == "Food Storage") {
+      return "#ff2727ff";
+    } else if (colourType == "Waste Management") {
+      return "#ff9a27ff";
+    } else if (colourType == "Communication") {
+      return "#f1ff27ff";
+    } else if (colourType == "Farmland") {
+      return "#40ff27ff";
+    } else if (colourType == "Resting Bay") {
+      return "#2793ffff";
+    } else if (colourType == "Corridor") {
+      return "rgb(101 101 101)";
     }
-    else if (colourType == "waste management" ) {
-      return "#ff9a27ff"
-    }
-    else if (colourType == "communication" ) {
-      return "#f1ff27ff"
-    }
-    else if (colourType == "farm" ) {
-      return "#40ff27ff"
-    }
-    else if (colourType == "resting bay" ) {
-      return "#2793ffff"
-    }   
-    return "#8827ffff"
+    return "#8827ffff";
   };
 
   const colour = colourFromType(colourType);
-  
+
   const handleDoubleClick = (item) => {
     return () => {
       setItems((prev) => prev.filter((i) => i.id !== item.id));
@@ -169,21 +197,31 @@ const DraggableGrid = () => {
           <option value="5">5</option>
           <option value="6">6</option>
         </select>
-      </div>
-      
-      <div className="control-group">
         <label>Type:</label>
-        <select value={colourType} onChange={e => setColourType(e.target.value)}>
-          <option value="food storage">food storage</option>
-          <option value="waste management">waste management</option>
-          <option value="communication">communication</option>
-          <option value="farm">farm</option>
-          <option value="resting bay">resting bay</option>
-          <option value="entertainment">entertainment</option>
+        <select
+          value={colourType}
+          onChange={(e) => setColourType(e.target.value)}
+        >
+          <option value="Food Storage">Food Storage</option>
+          <option value="Waste Management">Waste Management</option>
+          <option value="Communication">Communication</option>
+          <option value="Farm">Farm</option>
+          <option value="Resting Bay">Resting Bay</option>
+          <option value="Entertainment">Entertainment</option>
+          <option value="Corridor">Corridor</option>
         </select>
-        
+        <label
+          value={colourType}
+          onChange={(e) => setColourType(e.target.value)}
+        >
+          Custom Type:
+          <input type="text" name="Custom Type" />
+        </label>
         <label>Item Layer:</label>
-        <select value={itemLayer} onChange={e => setItemLayer(e.target.value)}>
+        <select
+          value={itemLayer}
+          onChange={(e) => setItemLayer(e.target.value)}
+        >
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -191,9 +229,11 @@ const DraggableGrid = () => {
           <option value="5">5</option>
           <option value="6">6</option>
         </select>
-        
         <label>Current Layer:</label>
-        <select value={currentLayer} onChange={e => setCurrentLayer(e.target.value)}>
+        <select
+          value={currentLayer}
+          onChange={(e) => setCurrentLayer(e.target.value)}
+        >
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -201,6 +241,12 @@ const DraggableGrid = () => {
           <option value="5">5</option>
           <option value="6">6</option>
         </select>
+
+        <button onClick={clearAll}>Clear All</button>
+        <span className="hint">
+          Drag and drop squares to move them around the grid
+        </span>
+        <span className="hint">Double click to delete items</span>
       </div>
       
       <span className="hint">
@@ -228,26 +274,27 @@ const DraggableGrid = () => {
         })}
 
         {/* Render draggable items */}
-        {items.map((item) => (
-            item.layer === currentLayer ? (
+        {items.map((item) =>
+          item.layer === currentLayer ? (
             <div
-                key={item.id}
-                className="draggable-item"
-                draggable
-                onDragStart={(e) => handleDragStart(e, item)}
-                onDragEnd={handleDragEnd}
-                onDoubleClick={handleDoubleClick(item)}
-                style={{
+              key={item.id}
+              className="draggable-item"
+              draggable
+              onDragStart={(e) => handleDragStart(e, item)}
+              onDragEnd={handleDragEnd}
+              onDoubleClick={handleDoubleClick(item)}
+              style={{
                 gridColumn: `${item.x + 1} / span ${item.width}`,
                 gridRow: `${item.y + 1} / span ${item.height}`,
                 backgroundColor: item.color,
-                }}
+              }}
             >
-            <span className="item-coordinates">
-              {item.name}
-            </span>
-            </div> ) : (<div/>) 
-        ))}
+              <span className="item-coordinates">{item.name}</span>
+            </div>
+          ) : (
+            <div />
+          )
+        )}
       </div>
 
       <div className="items-list">
