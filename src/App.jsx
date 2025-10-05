@@ -160,20 +160,26 @@ const DraggableGrid = () => {
   };
 
   const toggleEditor = (item) => {
-    setEditorState(!item.editor);
-  };
+    setItems(prevItems =>
+        prevItems.map(i =>
+            i.id === item.id ? { ...i, editor: !i.editor } : i
+        )
+    );
+  }
 
   return (
     <div className="app">
       <h1>Umacord at 25:00</h1>
 
       <div className="controls">
+      <div className="control-group">
         <button onClick={addNewSquare}>Add Square</button>
-        <label>Horizontal dimension:</label>
-        <select
-          value={horizontalDim}
-          onChange={(e) => setHorizontalDim(e.target.value)}
-        >
+        <button onClick={clearAll}>Clear All</button>
+      </div>
+      
+      <div className="control-group">
+        <label>Horizontal:</label>
+        <select value={horizontalDim} onChange={e => setHorizontalDim(e.target.value)}>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -181,11 +187,9 @@ const DraggableGrid = () => {
           <option value="5">5</option>
           <option value="6">6</option>
         </select>
-        <label>Vertical dimension:</label>
-        <select
-          value={verticalDim}
-          onChange={(e) => setVerticalDim(e.target.value)}
-        >
+        
+        <label>Vertical:</label>
+        <select value={verticalDim} onChange={e => setVerticalDim(e.target.value)}>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -244,6 +248,11 @@ const DraggableGrid = () => {
         </span>
         <span className="hint">Double click to delete items</span>
       </div>
+      
+      <span className="hint">
+        Drag and drop squares to move them around the grid • Double click to delete items
+      </span>
+    </div>
 
       <div
         ref={gridRef}
@@ -296,16 +305,90 @@ const DraggableGrid = () => {
           <ul>
             {items.map((item) => (
               <li key={item.id} style={{ color: item.color }}>
-                Layer {item.layer}: {item.name} area of {item.width} x{" "}
-                {item.height} at position ({item.x}, {item.y})
-                {!item.editorState ? (
-                  <button
-                    style={{ marginLeft: "30px" }}
-                    onClick={() => setEditorState(item)}
-                  >
-                    edit
-                  </button>
-                ) : null}
+                Layer {item.layer}: {item.name} area of {item.width} x {item.height} at position ({item.x}, {item.y})
+                {!item.editor ? (<button style={{marginLeft: '30px'}} onClick={() => toggleEditor(item)}>edit</button>) : 
+                                (<button style={{marginLeft: '30px'}} onClick={() => toggleEditor(item)}>close</button>)}
+                {item.editor && (
+                    <div style={{ marginTop: "10px", marginLeft: "20px" }}>
+                        <label>
+                        Horizontal dimension:
+                        </label>
+                        <select
+                        value={item.width}
+                        onChange={e =>
+                            setItems(prev =>
+                            prev.map(i =>
+                                i.id === item.id ? { ...i, width: parseInt(e.target.value) } : i
+                            )
+                            )
+                        }
+                        >
+                        {[1, 2, 3, 4, 5, 6].map(n => (
+                            <option key={n} value={n}>{n}</option>
+                        ))}
+                        </select>
+
+                        <label>
+                        Vertical dimension:
+                        </label>
+                        <select
+                        value={item.height}
+                        onChange={e =>
+                            setItems(prev =>
+                            prev.map(i =>
+                                i.id === item.id ? { ...i, height: parseInt(e.target.value) } : i
+                            )
+                            )
+                        }
+                        >
+                        {[1, 2, 3, 4, 5, 6].map(n => (
+                            <option key={n} value={n}>{n}</option>
+                        ))}
+                        </select>
+
+                        <label>
+                        Type:
+                        </label>
+                        <select
+                        value={item.name}
+                        onChange={e => {
+                            const newType = e.target.value;
+                            const newColor = colourFromType(newType);
+                            setItems(prev =>
+                            prev.map(i =>
+                                i.id === item.id ? { ...i, name: newType, color: newColor } : i
+                            )
+                            );
+                        }}
+                        >
+                        <option value="food storage">food storage</option>
+                        <option value="waste management">waste management</option>
+                        <option value="communication">communication</option>
+                        <option value="farm">farm</option>
+                        <option value="resting bay">resting bay</option>
+                        <option value="entertainment">entertainment</option>
+                        </select>
+
+                        <label>
+                        Item Layer:
+                        </label>
+                        <select
+                        value={item.layer}
+                        onChange={e =>
+                            setItems(prev =>
+                            prev.map(i =>
+                                i.id === item.id ? { ...i, layer: e.target.value } : i
+                            )
+                            )
+                        }
+                        >
+                        {[1, 2, 3, 4, 5, 6].map(n => (
+                            <option key={n} value={n}>{n}</option>
+                        ))}
+                        </select>
+                    </div>
+                    )}
+
               </li>
             ))}
           </ul>
