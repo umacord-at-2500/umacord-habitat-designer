@@ -1,4 +1,8 @@
 // src/App.jsx
+
+// AI used for template creation (barebones grid renderer).
+// All else -- styling, box placing and size management, grid size, etc. done by human.
+
 import React, { useState, useRef, useCallback } from "react";
 import { CirclePicker } from "react-color";
 import "./App.css";
